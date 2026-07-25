@@ -10,11 +10,13 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@repo/zodTypes": "*",
     "@repo/db": "*",
+    "@repo/fileTypes": "*",
+    "@repo/zodTypes": "*",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "axios": "^1.18.1",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
