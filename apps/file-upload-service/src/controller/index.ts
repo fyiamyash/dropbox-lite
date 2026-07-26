@@ -1,11 +1,8 @@
 import { Router, type Request, type Response } from "express";
 import { asynHandler } from "../utils/asyncHandler";
+import { getUrl } from "../utils/getPresignedUrl";
 
 export async function fileUploadController(req: Request, res: Response) {
-  console.log(req.body);
-
-  res.send("http//s3ulr/ashjads");
+  const url = await getUrl(req.body.fileName);
+  res.send(url);
 }
-
-export const appRouter = Router();
-appRouter.post("/fileUpload", asynHandler(fileUploadController));

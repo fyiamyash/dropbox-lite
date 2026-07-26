@@ -1,13 +1,13 @@
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 
 export function asyncHandler(
-  handlerFunction: (
+  handlerFunc: (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => Promise<void>,
 ): RequestHandler {
   return function wrapperFunction(req, res, next) {
-    handlerFunction(req, res, next).catch(next);
+    handlerFunc(req, res, next).catch(next);
   };
 }

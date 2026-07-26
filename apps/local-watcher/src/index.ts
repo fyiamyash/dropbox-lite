@@ -15,6 +15,7 @@ watcher.on("add", async (value, stats) => {
   console.log("size of new item is", stats!.size);
   let data: fileMetaData = {
     fileId: "Asfasda9834298h",
+    fileName: "Testfile",
     size: String(stats!.size),
     mimeType: "pdf",
     ownerId: "asasdauser123",
@@ -28,15 +29,15 @@ watcher.on("add", async (value, stats) => {
     console.log("there is error while calling the backend server!");
   }
 
-  pipeline(
-    fs.createReadStream(value),
-    fs.createWriteStream("./bufferVlues.txt"),
-    (err) => {
-      if (err) {
-        console.log(err);
-      }
-    },
-  );
+  //   pipeline(
+  //     fs.createReadStream(value),
+  //     fs.createWriteStream("./bufferVlues.txt"),
+  //     (err) => {
+  //       if (err) {
+  //         console.log(err);
+  //       }
+  //     },
+  //   );
 });
 watcher.on("change", (value) => {
   console.log("file changed here ", value);
