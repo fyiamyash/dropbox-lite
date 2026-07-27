@@ -39,6 +39,7 @@
     "apps/file-upload-service": {
       "name": "file-upload-service",
       "dependencies": {
+        "@repo/fileTypes": "*",
         "@types/express": "^5.0.6",
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
