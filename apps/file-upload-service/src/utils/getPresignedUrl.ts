@@ -10,6 +10,7 @@ const client = new S3Client({
   endpoint: "http://localhost:9000",
   region: "asia-east-1",
   forcePathStyle: true,
+
   credentials: { accessKeyId: "admin", secretAccessKey: "password" },
 });
 
@@ -19,21 +20,22 @@ export async function getUrl(data: fileMetaData) {
   console.log("req reached here 4", key);
   const { UploadId } = await client.send(
     new CreateMultipartUploadCommand({
-      Bucket: "dropBox",
+      Bucket: "drop-box",
       Key: key,
     }),
   );
+  console.log("req reached here 5");
   let presignedUrl: any[] = [];
   for (let parts = 1; parts <= data.parts!; parts++) {
     const command = new UploadPartCommand({
-      Bucket: "dropBox",
+      Bucket: "drop-box",
       Key: key,
       UploadId: UploadId,
       PartNumber: parts,
     });
-    console.log("req reached here 5", command);
+    console.log("req reached here 6", command);
     const url = await getSignedUrl(client, command, { expiresIn: 3600 });
-    presignedUrl.push(url);
+    presignedUrl.push({ partno: parts, url: url });
   }
 
   return { UploadId, presignedUrl };

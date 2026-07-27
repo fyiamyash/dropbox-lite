@@ -22,5 +22,5 @@ export async function backendFileUploadController(req: Request, res: Response) {
     res.status(412).json({ message: "error while fetching the Url" });
     return;
   }
-  res.send({ URL: responseFromFileService });
+  res.send(responseFromFileService);
 }

@@ -1,14 +1,6 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import type { fileMetaData, mimeTypes } from "@repo/fileTypes";
 import path from "node:path";
 import { Stats } from "node:fs";
-
-const client = new S3Client({
-  endpoint: "http://localhost:9000",
-  region: "asia-east-1",
-  forcePathStyle: true,
-  credentials: { accessKeyId: "admin", secretAccessKey: "password" },
-});
 
 export async function uploadInS3() {}
 
