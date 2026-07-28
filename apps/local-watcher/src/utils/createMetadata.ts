@@ -14,7 +14,10 @@ export function createMetaData(value: string, stats: Stats) {
     path.extname(fileName) === ".jpg"
   ) {
     mimeType = "img";
-  } else if (path.extname(fileName) === ".mp4") {
+  } else if (
+    path.extname(fileName) === ".MP4" ||
+    path.extname(fileName) === ".mov"
+  ) {
     mimeType = "video";
   } else if (path.extname(fileName) === ".pdf") {
     mimeType = "pdf";

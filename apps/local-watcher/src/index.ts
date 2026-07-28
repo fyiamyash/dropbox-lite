@@ -4,11 +4,15 @@ import fs from "node:fs";
 import { pipeline } from "node:stream";
 import { getUploadUrl } from "./services/fileUpload";
 import type { fileMetaData, mimeTypes } from "@repo/fileTypes";
-import { createMetaData, uploadInS3 } from "./utils";
+import { createMetaData, uploadInS3 } from "./utils/createMetadata";
 
 const watcher = chokidar.watch("./localFolder", {
   persistent: true,
   ignoreInitial: true,
+  awaitWriteFinish: {
+    stabilityThreshold: 300,
+    pollInterval: 100,
+  },
 });
 console.log("watching out for the files!");
 watcher.on("add", async (value, stats) => {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { fileMetaData } from "@repo/fileTypes";
+
 export async function getUploadUrl(fileData: fileMetaData) {
   console.log("hjkda", fileData);
   try {
@@ -11,3 +12,5 @@ export async function getUploadUrl(fileData: fileMetaData) {
     );
   }
 }
+
+export async function uploadFile() {}

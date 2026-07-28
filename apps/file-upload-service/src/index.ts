@@ -1,7 +1,7 @@
 import express from "express";
-import { envCustom } from "./utils/envCustom";
-import { fileUploadController } from "./controller";
+
 import { fielUploadRouter } from "./router";
+import { envCustom } from "./utils/envCustom";
 
 const app = express();
 

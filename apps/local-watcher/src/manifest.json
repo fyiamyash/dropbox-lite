@@ -1,0 +1,16 @@
+{
+  "/Users/you/DropboxLiteFolder/invoice.pdf": {
+    "fileId": "abc123",
+    "size": 2048000,
+    "mtime": 1721990000000,
+    "createdAt": "2026-07-20T10:00:00Z",
+    "updatedAt": "2026-07-25T14:32:00Z",
+    "chunkSize": 512000,
+    "chunks": [
+      { "chunkId": 0, "hash": "e3b0c4...", "status": "uploaded" },
+      { "chunkId": 1, "hash": "9f86d0...", "status": "uploaded" },
+      { "chunkId": 2, "hash": "d4735e...", "status": "uploaded" },
+      { "chunkId": 3, "hash": "4e07408...", "status": "uploaded" }
+    ]
+  }
+}
