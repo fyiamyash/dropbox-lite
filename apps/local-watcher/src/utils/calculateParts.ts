@@ -1,4 +1,4 @@
-export function calculateTotalParts(fileSize: string): number {
+export function calculateTotalParts(fileSize: number): number {
   const fileSizeNumber = Number(fileSize);
   const partSize = calcMinimumPartSize(fileSizeNumber);
 
