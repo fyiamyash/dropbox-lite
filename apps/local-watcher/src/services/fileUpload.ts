@@ -1,10 +1,24 @@
 import axios from "axios";
-import type { fileMetaData } from "@repo/fileTypes";
+import type {
+  fileMetaData,
+  hashesType,
+  postBodyForGetUrl,
+} from "@repo/fileTypes";
 
-export async function getUploadUrl(fileData: fileMetaData) {
-  console.log("hjkda", fileData);
+export async function getUploadUrl(
+  hash: hashesType[],
+  fileName: string,
+  fileId: string,
+  parts: number,
+) {
+  const sendData: postBodyForGetUrl = {
+    hashes: hash,
+    fileName: fileName,
+    fileId: fileId,
+    parts: parts,
+  };
   try {
-    const response = await axios.post("http://localhost:3000/file", fileData);
+    const response = await axios.post("http://localhost:3000/file", sendData);
     return response.data;
   } catch {
     throw Error(

@@ -1,11 +1,14 @@
 import { Router, type Request, type Response } from "express";
 import { asynHandler } from "../utils/asyncHandler";
 import { getUrl } from "../utils/getPresignedUrl";
-import type { fileMetaData } from "@repo/fileTypes";
+import type {
+  fileMetaData,
+  hashesType,
+  postBodyForGetUrl,
+} from "@repo/fileTypes";
 
 export async function fileUploadController(req: Request, res: Response) {
-  const metaData: fileMetaData = req.body;
-
+  const metaData: postBodyForGetUrl = req.body;
   const url = await getUrl(metaData);
   res.send({ Urls: url.presignedUrl });
 }

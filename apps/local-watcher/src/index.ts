@@ -1,10 +1,9 @@
-import axios from "axios";
 import chokidar from "chokidar";
-import fs from "node:fs";
-import { pipeline } from "node:stream";
+
 import { getUploadUrl } from "./services/fileUpload";
-import type { fileMetaData, mimeTypes } from "@repo/fileTypes";
+import type { fileMetaData, hashesType, mimeTypes } from "@repo/fileTypes";
 import { createMetaData, uploadInS3 } from "./utils/createMetadata";
+import { hashing } from "./utils/hashing";
 
 const watcher = chokidar.watch("./localFolder", {
   persistent: true,
@@ -15,10 +14,26 @@ const watcher = chokidar.watch("./localFolder", {
   },
 });
 console.log("watching out for the files!");
+
 watcher.on("add", async (value, stats) => {
   const data: fileMetaData = createMetaData(value, stats!);
+  if (!data.parts) {
+    console.error("No of parts not available!");
+    return;
+  }
+  const hashedchunks: hashesType[] = hashing(
+    data.parts,
+    value,
+    data.chunkSize!,
+    data.size,
+  );
   try {
-    const response = await getUploadUrl(data);
+    const response = await getUploadUrl(
+      hashedchunks,
+      data.fileName,
+      data.fileId,
+      data.parts,
+    );
     if (response) {
       console.log(response);
     }
@@ -26,6 +41,7 @@ watcher.on("add", async (value, stats) => {
     console.log("there is error while calling the backend server!");
   }
 });
+
 watcher.on("change", (value) => {
   console.log("file changed here ", value);
 });

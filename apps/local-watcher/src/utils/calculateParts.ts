@@ -1,13 +1,14 @@
-export function calculateTotalParts(fileSize: number): number {
+export function calculateTotalParts(fileSize: number) {
   const fileSizeNumber = Number(fileSize);
   const partSize = calcMinimumPartSize(fileSizeNumber);
-
-  console.log(Math.ceil(fileSizeNumber / partSize));
-  return Math.ceil(fileSizeNumber / partSize);
+  const calcData = {
+    parts: Math.ceil(fileSizeNumber / partSize),
+    partSize: partSize,
+  };
+  return calcData;
 }
 
 function calcMinimumPartSize(fileSize: number) {
-  console.log("sizeeeeee", fileSize);
   const minPartSize = 5 * 1024 * 1024;
   const maxFileSiPartSize = 8 * 1024 * 1024;
   const maxParts = 10000;

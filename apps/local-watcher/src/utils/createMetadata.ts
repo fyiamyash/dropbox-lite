@@ -29,16 +29,17 @@ export function createMetaData(value: string, stats: Stats) {
   // console.log("size of new item is", stats!.size);
   // console.log("mime type", mimeType);
 
-  let parts = calculateTotalParts(stats.size);
+  let calcValue = calculateTotalParts(stats.size);
 
   let data: fileMetaData = {
     fileId: "Asfasda9834298h",
     fileName: fileName,
-    size: String(stats!.size),
+    size: stats!.size,
     mimeType: mimeType,
     ownerId: "asasdauser123",
-    status: "pending",
-    parts: parts,
+    status: "not uploaded",
+    parts: calcValue.parts,
+    chunkSize: calcValue.partSize,
   };
   return data;
 }
