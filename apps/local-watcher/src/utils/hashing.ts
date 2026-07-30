@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import crypto from "node:crypto";
 import type { hashesType } from "@repo/fileTypes";
+
 export function hashing(
   parts: number,
   filePath: string,
@@ -24,20 +25,4 @@ export function hashing(
   }
   fs.closeSync(fileDescriptor);
   return hashes;
-}
-
-export function readBuffer(
-  filePath: string,
-  chunkSize: number,
-  startFrom: number,
-  fileSize: number,
-) {
-  const fileDescriptor = fs.openSync(filePath, "r");
-
-  const start = (startFrom - 1) * chunkSize;
-  const bytesToRead = Math.min(start, fileSize - start);
-  const allocateBuffer = Buffer.alloc(bytesToRead);
-  fs.readSync(fileDescriptor, allocateBuffer, 0, bytesToRead, start);
-
-  fs.closeSync(fileDescriptor);
 }

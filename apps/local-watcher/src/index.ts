@@ -4,6 +4,7 @@ import { getUploadUrl } from "./services/fileUpload";
 import type { fileMetaData, hashesType, mimeTypes } from "@repo/fileTypes";
 import { createMetaData, uploadInS3 } from "./utils/createMetadata";
 import { hashing } from "./utils/hashing";
+import { uploadChunks } from "./utils/uploadChunks";
 
 const watcher = chokidar.watch("./localFolder", {
   persistent: true,
@@ -17,7 +18,7 @@ console.log("watching out for the files!");
 
 watcher.on("add", async (value, stats) => {
   const data: fileMetaData = createMetaData(value, stats!);
-  if (!data.parts) {
+  if (!data.parts || !data.chunkSize || !data.parts) {
     console.error("No of parts not available!");
     return;
   }
@@ -28,14 +29,15 @@ watcher.on("add", async (value, stats) => {
     data.size,
   );
   try {
-    const response = await getUploadUrl(
+    const { Urls } = await getUploadUrl(
       hashedchunks,
       data.fileName,
       data.fileId,
       data.parts,
     );
-    if (response) {
-      console.log(response);
+    if (Urls) {
+      // console.log(Urls);
+      uploadChunks(value, data.chunkSize, data.size, Urls);
     }
   } catch {
     console.log("there is error while calling the backend server!");
