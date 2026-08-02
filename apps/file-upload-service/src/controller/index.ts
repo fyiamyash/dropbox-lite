@@ -5,6 +5,7 @@ import type {
   fileMetaData,
   hashesType,
   postBodyForGetUrl,
+  preSignedUrlType,
 } from "@repo/fileTypes";
 
 export async function fileUploadController(req: Request, res: Response) {

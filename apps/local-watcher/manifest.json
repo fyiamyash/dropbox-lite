@@ -1,0 +1,96 @@
+{
+  "localFolder/testq3.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq3.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "asasdauser123",
+    "parts": 1,
+    "chunkSize": 5242880,
+    "status": "not uploaded",
+    "chunks": []
+  },
+  "localFolder/moviefrmLocalwatcher.mov": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "moviefrmLocalwatcher.mov",
+    "mimeType": "video",
+    "size": 59818848,
+    "ownerId": "asasdauser123",
+    "parts": 12,
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "bc25b37a6a187f2f07f203ceac7539bb",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-bc25b37a6a187f2f07f203ceac7539bb",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 2,
+        "hashId": "7db782324f1cdefad3f4b26b086f6f29",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-7db782324f1cdefad3f4b26b086f6f29",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 3,
+        "hashId": "07427a071995da14f7e1959ff571720c",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-07427a071995da14f7e1959ff571720c",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 4,
+        "hashId": "ad3915c38afca11040e0e5d3e9030663",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-ad3915c38afca11040e0e5d3e9030663",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 5,
+        "hashId": "93c8a427763f1638303f006c11f17f46",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-93c8a427763f1638303f006c11f17f46",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 6,
+        "hashId": "ab642dc6ffff24a228ecade40881b6d3",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-ab642dc6ffff24a228ecade40881b6d3",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 7,
+        "hashId": "33cb6f4d691350bdaeec599eb195105d",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-33cb6f4d691350bdaeec599eb195105d",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 8,
+        "hashId": "8d2ce708fe50739a76ea51a494e84192",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-8d2ce708fe50739a76ea51a494e84192",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 9,
+        "hashId": "9f3d341b32147359de82a32886d32453",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-9f3d341b32147359de82a32886d32453",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 10,
+        "hashId": "15b84ee8efb13d0fa7673f5b3c71e07a",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-15b84ee8efb13d0fa7673f5b3c71e07a",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 11,
+        "hashId": "d8e9645634503f4d3e654b561b22d7c9",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-d8e9645634503f4d3e654b561b22d7c9",
+        "status": "uploaded"
+      },
+      {
+        "chunkId": 12,
+        "hashId": "79d244940de85cd1ee9a4691ba30ec57",
+        "key": "upload/Asfasda9834298h/moviefrmLocalwatcher.mov/chunk-79d244940de85cd1ee9a4691ba30ec57",
+        "status": "uploaded"
+      }
+    ]
+  }
+}

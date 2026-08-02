@@ -1,9 +1,15 @@
 import chokidar from "chokidar";
 
 import { getUploadUrl } from "./services/fileUpload";
-import type { fileMetaData, hashesType, mimeTypes } from "@repo/fileTypes";
+import type {
+  fileMetaData,
+  hashesType,
+  metaDataForManifest,
+} from "@repo/fileTypes";
 import { createMetaData, uploadInS3 } from "./utils/createMetadata";
 import { hashing } from "./utils/hashing";
+
+import { updateManifest } from "./utils/updateManifest";
 import { uploadChunks } from "./utils/uploadChunks";
 
 const watcher = chokidar.watch("./localFolder", {
@@ -28,19 +34,43 @@ watcher.on("add", async (value, stats) => {
     data.chunkSize!,
     data.size,
   );
-  try {
-    const { Urls } = await getUploadUrl(
-      hashedchunks,
-      data.fileName,
-      data.fileId,
-      data.parts,
-    );
-    if (Urls) {
-      // console.log(Urls);
-      uploadChunks(value, data.chunkSize, data.size, Urls);
+  if (hashedchunks) {
+    let manifData: metaDataForManifest = {
+      fileId: data.fileId,
+      fileName: data.fileName,
+      mimeType: data.mimeType,
+      size: data.size,
+      ownerId: data.ownerId,
+      parts: data.parts,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      chunkSize: data.chunkSize,
+      chunks: [],
+    };
+
+    try {
+      const { Urls } = await getUploadUrl(
+        hashedchunks,
+        data.fileName,
+        data.fileId,
+        data.parts,
+      );
+      if (Urls) {
+        for (let i = 0; i < hashedchunks.length; i++) {
+          manifData.chunks.push({
+            chunkId: hashedchunks[i]!.chunkId,
+            hashId: hashedchunks[i]!.hashId,
+            key: "",
+            status: "not uploaded",
+          });
+        }
+        // updateManifest(manifData, value);
+        // console.log(Urls[0].partno);
+        uploadChunks(value, data.chunkSize, data.size, Urls, manifData);
+      }
+    } catch {
+      console.log("there is error while calling the backend server!");
     }
-  } catch {
-    console.log("there is error while calling the backend server!");
   }
 });
 

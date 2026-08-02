@@ -10,7 +10,6 @@ export type fileMetaData = {
   createdAt?: Date;
   updatedAt?: Date;
   chunkSize?: number;
-  status: "uploaded" | "not uploaded";
 };
 
 // export type chunks = {
@@ -23,7 +22,7 @@ export type metaDataForManifest = fileMetaData & {
   chunks: chunks[];
 };
 
-export type manifestType = Record<string, fileMetaData>;
+export type manifestFileType = Record<string, fileMetaData>;
 
 export type hashesType = {
   chunkId: number;
@@ -32,6 +31,7 @@ export type hashesType = {
 
 export type chunks = hashesType & {
   key: string;
+  status: "uploaded" | "not uploaded";
 };
 
 export type postBodyForGetUrl = {
