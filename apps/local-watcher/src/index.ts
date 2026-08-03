@@ -64,12 +64,11 @@ watcher.on("add", async (value, stats) => {
             status: "not uploaded",
           });
         }
-        // updateManifest(manifData, value);
-        // console.log(Urls[0].partno);
         uploadChunks(value, data.chunkSize, data.size, Urls, manifData);
+        updateManifest(manifData, value);
       }
-    } catch {
-      console.log("there is error while calling the backend server!");
+    } catch (e) {
+      console.log("there is error while calling the backend server!", e);
     }
   }
 });

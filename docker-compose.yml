@@ -18,3 +18,8 @@ services:
     command: server /mnt/data --console-address ":9001"
     volumes:
       - ./dropboxlite/data:/mnt/data
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
