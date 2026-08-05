@@ -36,14 +36,15 @@ model Chunks{
 
 model MetaData {
 id                        String                      @id                 @default(uuid())
-fileId                    String
+fileId                    String                      @unique
 fileName                  String
 mimeType                  String
 size                      Int
 ownerId                   String          
 userIdforOwner            User            @relation("metaData",references: [userId],fields: [ownerId])
 parts                     Int
-createdAt                 Int
-UpdatedAt                 Int
+createdAt                 DateTime
+UpdatedAt                 DateTime
+mtime                     Int
 chunks                   Chunks[]       @relation("chunksRelation")
 }
