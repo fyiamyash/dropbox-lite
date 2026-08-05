@@ -34,11 +34,12 @@ export function createMetaData(value: string, stats: Stats) {
   let data: fileMetaData = {
     fileId: "Asfasda9834298h",
     fileName: fileName,
-    size: stats!.size,
+    size: stats.size,
     mimeType: mimeType,
-    ownerId: "asasdauser123",
-    status: "not uploaded",
+    ownerId: "e2953526-8365-4587-97db-ccdf39032e11",
     parts: calcValue.parts,
+    createdAt: stats.birthtime,
+    updatedAt: stats.mtime,
     chunkSize: calcValue.partSize,
   };
   return data;

@@ -6,11 +6,12 @@ import type {
   hashesType,
   metaDataForManifest,
 } from "@repo/fileTypes";
-import { createMetaData, uploadInS3 } from "./utils/createMetadata";
+import { createMetaData } from "./utils/createMetadata";
 import { hashing } from "./utils/hashing";
 
 import { updateManifest } from "./utils/updateManifest";
 import { uploadChunks } from "./utils/uploadChunks";
+import { onFileSettled, updateFileStatus } from "./utils/onFileUploadSettled";
 
 const watcher = chokidar.watch("./localFolder", {
   persistent: true,
@@ -64,8 +65,17 @@ watcher.on("add", async (value, stats) => {
             status: "not uploaded",
           });
         }
-        uploadChunks(value, data.chunkSize, data.size, Urls, manifData);
-        updateManifest(manifData, value);
+        const updatedManifData = await uploadChunks(
+          value,
+          data.chunkSize,
+          data.size,
+          Urls,
+          manifData,
+        );
+        onFileSettled([
+          updateManifest(updatedManifData, value),
+          updateFileStatus(updatedManifData),
+        ]);
       }
     } catch (e) {
       console.log("there is error while calling the backend server!", e);

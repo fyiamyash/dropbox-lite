@@ -24,6 +24,8 @@ export function saveManifest(manifest: manifestFileType) {
 }
 
 export function updateManifest(fileData: metaDataForManifest, path: string) {
+  console.log("from update called");
+  console.log("from update section", fileData);
   const mani: manifestFileType = readManifest();
   mani[path] = fileData;
   saveManifest(mani);

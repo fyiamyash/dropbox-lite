@@ -1,14 +1,8 @@
 import type { fileMetaData } from "@repo/fileTypes";
 import axios from "axios";
-import { Queue } from "bullmq";
-import type { Request, Response } from "express";
-import { envCustom } from "../utils/envCustom";
-import IORedis from "ioredis";
 
-const connection = new IORedis({ maxRetriesPerRequest: null });
-const fileStatusQueue = new Queue("status", {
-  connection: connection,
-});
+import type { Request, Response } from "express";
+import { dbWorker, fileStatusJob } from "../utils/jobQueue";
 
 export async function backendFileUploadController(req: Request, res: Response) {
   const fileMetadata: fileMetaData = req.body;
@@ -31,6 +25,22 @@ export async function backendFileUploadController(req: Request, res: Response) {
 
 export async function fileStatusHandler(req: Request, res: Response) {
   const fileStatusData = req.body;
-  console.log(fileStatusData);
-  res.status(201);
+  fileStatusJob.add("addToDb", fileStatusData, {
+    removeOnComplete: true,
+    removeOnFail: false,
+    attempts: 2,
+    backoff: {
+      type: "exponential",
+      delay: 2000,
+    },
+  });
+
+  dbWorker.on("completed", (job) => {
+    console.log(`job ${job.id} is completed`);
+  });
+  dbWorker.on("failed", (job, err) => {
+    console.log(`${job!.id} has failed with ${err.message}`);
+  });
+
+  res.sendStatus(201);
 }

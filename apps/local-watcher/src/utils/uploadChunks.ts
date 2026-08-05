@@ -2,7 +2,7 @@ import fs from "node:fs";
 import type { metaDataForManifest, preSignedUrlType } from "@repo/fileTypes";
 import axios from "axios";
 import pLimit from "p-limit";
-import { updateManifest } from "./updateManifest";
+
 export async function uploadChunks(
   filePath: string,
   chunkSize: number,
@@ -43,5 +43,5 @@ export async function uploadChunks(
   fs.closeSync(fileDescriptor);
 
   await Promise.all(returnedUploadPromises);
-  updateManifest(manifData, filePath);
+  return manifData;
 }

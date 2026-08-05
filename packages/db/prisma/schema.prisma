@@ -14,9 +14,36 @@ datasource db {
 
 
 model User {
-  userId        String        @id         @default(uuid())
+  userId        String        @id         
 
   username      String        
 
   password      String
+
+  metaData      MetaData[]      @relation("metaData")
+}
+
+model Chunks{
+  id            String        @id       @default(uuid())
+  chunkId       Int
+  hashId        String
+  key           String
+  status        String
+  metadataId    String
+  metadata      MetaData        @relation("chunksRelation",references: [id],fields: [metadataId], onDelete:Cascade)
+
+}
+
+model MetaData {
+id                        String                      @id                 @default(uuid())
+fileId                    String
+fileName                  String
+mimeType                  String
+size                      Int
+ownerId                   String          
+userIdforOwner            User            @relation("metaData",references: [userId],fields: [ownerId])
+parts                     Int
+createdAt                 Int
+UpdatedAt                 Int
+chunks                   Chunks[]       @relation("chunksRelation")
 }
