@@ -44,3 +44,15 @@ export async function fileStatusHandler(req: Request, res: Response) {
 
   res.sendStatus(201);
 }
+
+export async function downloadController(req: Request, res: Response) {
+  const fileId: string = String(req.params.fileID);
+  console.log("reached here 1", fileId);
+  if (!fileId) {
+    res.status(409).send("Invalid/ empty FileID");
+    return;
+  }
+  const result = await axios.get(`http://localhost:3001//download/${fileId}`);
+
+  res.send(result.data);
+}

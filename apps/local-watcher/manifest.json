@@ -1,1 +1,91 @@
-{"localFolder/testq1.txt":{"fileId":"Asfasda9834298h","fileName":"testq1.txt","mimeType":"text","size":14,"ownerId":"asasdauser123","parts":1,"chunkSize":5242880,"chunks":[{"chunkId":1,"hashId":"a3ae0d8c6e2a2223e0c22db39a768d26","key":"","status":"not uploaded"}]},"localFolder/testq2.txt":{"fileId":"Asfasda9834298h","fileName":"testq2.txt","mimeType":"text","size":14,"ownerId":"asasdauser123","parts":1,"chunkSize":5242880,"chunks":[{"chunkId":1,"hashId":"a3ae0d8c6e2a2223e0c22db39a768d26","key":"","status":"not uploaded"}]},"localFolder/testq3.txt":{"fileId":"Asfasda9834298h","fileName":"testq3.txt","mimeType":"text","size":14,"ownerId":"asasdauser123","parts":1,"chunkSize":5242880,"chunks":[{"chunkId":1,"hashId":"a3ae0d8c6e2a2223e0c22db39a768d26","key":"upload/Asfasda9834298h/testq3.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26","status":"uploaded"}]},"localFolder/testq4.txt":{"fileId":"Asfasda9834298h","fileName":"testq4.txt","mimeType":"text","size":14,"ownerId":"e2953526-8365-4587-97db-ccdf39032e11","parts":1,"createdAt":"2026-07-22T12:50:10.184Z","updatedAt":"2026-08-02T12:56:22.137Z","chunkSize":5242880,"chunks":[{"chunkId":1,"hashId":"a3ae0d8c6e2a2223e0c22db39a768d26","key":"upload/Asfasda9834298h/testq4.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26","status":"uploaded"}]},"localFolder/testq5.txt":{"fileId":"Asfasda9834298h","fileName":"testq5.txt","mimeType":"text","size":14,"ownerId":"e2953526-8365-4587-97db-ccdf39032e11","parts":1,"createdAt":"2026-07-22T12:50:10.184Z","updatedAt":"2026-08-02T12:56:22.137Z","chunkSize":5242880,"chunks":[{"chunkId":1,"hashId":"a3ae0d8c6e2a2223e0c22db39a768d26","key":"upload/Asfasda9834298h/testq5.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26","status":"uploaded"}]}}
+{
+  "localFolder/testq1.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq1.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "asasdauser123",
+    "parts": 1,
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "a3ae0d8c6e2a2223e0c22db39a768d26",
+        "key": "",
+        "status": "not uploaded"
+      }
+    ]
+  },
+  "localFolder/testq2.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq2.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "asasdauser123",
+    "parts": 1,
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "a3ae0d8c6e2a2223e0c22db39a768d26",
+        "key": "",
+        "status": "not uploaded"
+      }
+    ]
+  },
+  "localFolder/testq3.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq3.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "asasdauser123",
+    "parts": 1,
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "a3ae0d8c6e2a2223e0c22db39a768d26",
+        "key": "upload/Asfasda9834298h/testq3.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26",
+        "status": "uploaded"
+      }
+    ]
+  },
+  "localFolder/testq4.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq4.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "e2953526-8365-4587-97db-ccdf39032e11",
+    "parts": 1,
+    "createdAt": "2026-07-22T12:50:10.184Z",
+    "updatedAt": "2026-08-02T12:56:22.137Z",
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "a3ae0d8c6e2a2223e0c22db39a768d26",
+        "key": "upload/Asfasda9834298h/testq4.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26",
+        "status": "uploaded"
+      }
+    ]
+  },
+  "localFolder/testq5.txt": {
+    "fileId": "Asfasda9834298h",
+    "fileName": "testq5.txt",
+    "mimeType": "text",
+    "size": 14,
+    "ownerId": "e2953526-8365-4587-97db-ccdf39032e11",
+    "parts": 1,
+    "createdAt": "2026-07-22T12:50:10.184Z",
+    "updatedAt": "2026-08-02T12:56:22.137Z",
+    "chunkSize": 5242880,
+    "chunks": [
+      {
+        "chunkId": 1,
+        "hashId": "a3ae0d8c6e2a2223e0c22db39a768d26",
+        "key": "upload/Asfasda9834298h/testq5.txt/chunk-a3ae0d8c6e2a2223e0c22db39a768d26",
+        "status": "uploaded"
+      }
+    ]
+  }
+}
