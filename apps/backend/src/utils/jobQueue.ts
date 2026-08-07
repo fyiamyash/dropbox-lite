@@ -31,7 +31,7 @@ export const dbWorker = new Worker(
         parts: upload.parts!,
         createdAt: upload.createdAt!,
         UpdatedAt: upload.updatedAt!,
-        mtime: 123133,
+        mtime: upload.mtime ? upload.mtime : 0,
         chunks: {
           create: upload.chunks,
         },

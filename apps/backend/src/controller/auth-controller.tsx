@@ -12,8 +12,10 @@ export async function signInFunction(
     return;
   }
   const { username, password } = parsedUserbody.data;
+  const id = crypto.randomUUID();
   const userSaved = await prisma.user.create({
     data: {
+      userId: id,
       username: username,
       password: password,
     },

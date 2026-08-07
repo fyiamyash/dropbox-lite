@@ -9,6 +9,7 @@ export type fileMetaData = {
   parts?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  mtime?: number;
   chunkSize?: number;
 };
 

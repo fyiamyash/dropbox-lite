@@ -12,6 +12,8 @@ import { hashing } from "./utils/hashing";
 import { updateManifest } from "./utils/updateManifest";
 import { uploadChunks } from "./utils/uploadChunks";
 import { onFileSettled, updateFileStatus } from "./utils/onFileUploadSettled";
+import { checkFileSize } from "./utils/checkFunctions";
+import { compareHash } from "./utils/compareHashes";
 
 const watcher = chokidar.watch("./localFolder", {
   persistent: true,
@@ -83,8 +85,24 @@ watcher.on("add", async (value, stats) => {
   }
 });
 
-watcher.on("change", (value) => {
-  console.log("file changed here ", value);
+watcher.on("change", (value, stats) => {
+  console.log(`file: ${value} changed at: ${stats?.mtime} `);
+  if (checkFileSize(value, stats!.size)) {
+    const data: fileMetaData = createMetaData(value, stats!);
+    if (!data.parts || !data.chunkSize || !data.parts) {
+      console.error("No of parts not available!");
+      return;
+    }
+    const hashedchunks: hashesType[] = hashing(
+      data.parts,
+      value,
+      data.chunkSize!,
+      data.size,
+    );
+
+    const hashesResult = compareHash(hashedchunks, value);
+    const { updatedChunks, changedHashes } = hashesResult;
+  }
 });
 
 watcher.on("error", (error) => {
