@@ -7,7 +7,7 @@ import type {
 } from "@repo/fileTypes";
 import fs from "node:fs";
 
-export function readManifest(): Record<string, any> {
+export function readManifest() {
   if (!fs.existsSync("./manifest.json")) {
     return {};
   }

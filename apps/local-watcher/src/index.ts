@@ -10,7 +10,7 @@ import type {
 import { createMetaData } from "./utils/createMetadata";
 import { hashing } from "./utils/hashing";
 
-import { updateManifest } from "./utils/updateManifest";
+import { readManifest, updateManifest } from "./utils/updateManifest";
 import { uploadChunks } from "./utils/uploadChunks";
 import { onFileSettled, updateFileStatus } from "./utils/onFileUploadSettled";
 import { checkFileSize } from "./utils/checkFunctions";
@@ -109,18 +109,14 @@ watcher.on("change", async (value, stats) => {
       return;
     }
     const { updatedChunks, resultChangedHashes } = hashesResult;
-    let manifData: metaDataForManifest = {
-      fileId: data.fileId,
-      fileName: data.fileName,
-      mimeType: data.mimeType,
-      size: data.size,
-      ownerId: data.ownerId,
-      parts: data.parts,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
-      chunkSize: data.chunkSize,
-      chunks: [],
-    };
+    let manifData: metaDataForManifest = readManifest()[value];
+
+    if (!manifData) {
+      console.error(
+        "This file doesnt exist or error parsing to get the file details",
+      );
+      return;
+    }
     try {
       console.log("getting Url for updated hashes!");
       const { Urls } = await getUploadUrl(
@@ -134,7 +130,31 @@ watcher.on("change", async (value, stats) => {
         console.error("No incoming urls for the new hashes");
         return;
       }
-      console.log(typeof Urls);
+      let chunksToUpload: chunks[] = [];
+      for (let i = 0; i < resultChangedHashes.length; i++) {
+        chunksToUpload.push({
+          chunkId: resultChangedHashes[i]!.chunkId,
+          hashId: resultChangedHashes[i]!.hashId,
+          key: "",
+          status: "not uploaded",
+        });
+      }
+      const uploadedChunksWithUpdatedKeys: chunks[] = await uploadChunks(
+        value,
+        data.chunkSize,
+        data.size,
+        Urls,
+        chunksToUpload,
+      );
+      console.log(uploadedChunksWithUpdatedKeys);
+      for (let i = 0; i < manifData.chunks.length; i++) {
+        manifData.chunks.map((h) => {
+          if (h.chunkId === uploadedChunksWithUpdatedKeys[i]!.chunkId) {
+            h.hashId = uploadedChunksWithUpdatedKeys[i]!.hashId;
+            console.log(manifData);
+          }
+        });
+      }
     } catch (e) {
       console.error(`error in syncing block on change ${e}`);
     }
