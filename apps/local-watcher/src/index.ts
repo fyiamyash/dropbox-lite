@@ -2,6 +2,7 @@ import chokidar from "chokidar";
 
 import { getUploadUrl } from "./services/fileUpload";
 import type {
+  chunks,
   fileMetaData,
   hashesType,
   metaDataForManifest,
@@ -59,24 +60,26 @@ watcher.on("add", async (value, stats) => {
         data.parts,
       );
       if (Urls) {
+        let chunksToUpload: chunks[] = [];
         for (let i = 0; i < hashedchunks.length; i++) {
-          manifData.chunks.push({
+          chunksToUpload.push({
             chunkId: hashedchunks[i]!.chunkId,
             hashId: hashedchunks[i]!.hashId,
             key: "",
             status: "not uploaded",
           });
         }
-        const updatedManifData = await uploadChunks(
+        const updatedChunks = await uploadChunks(
           value,
           data.chunkSize,
           data.size,
           Urls,
-          manifData,
+          chunksToUpload,
         );
+        manifData.chunks = updatedChunks;
         onFileSettled([
-          updateManifest(updatedManifData, value),
-          updateFileStatus(updatedManifData),
+          updateManifest(manifData, value),
+          updateFileStatus(manifData),
         ]);
       }
     } catch (e) {
@@ -85,7 +88,7 @@ watcher.on("add", async (value, stats) => {
   }
 });
 
-watcher.on("change", (value, stats) => {
+watcher.on("change", async (value, stats) => {
   console.log(`file: ${value} changed at: ${stats?.mtime} `);
   if (checkFileSize(value, stats!.size)) {
     const data: fileMetaData = createMetaData(value, stats!);
@@ -100,8 +103,41 @@ watcher.on("change", (value, stats) => {
       data.size,
     );
 
-    const hashesResult = compareHash(hashedchunks, value);
-    const { updatedChunks, changedHashes } = hashesResult;
+    const hashesResult = await compareHash(hashedchunks, value);
+    if (!hashesResult) {
+      console.error("Hashes result is undefined/not returned!");
+      return;
+    }
+    const { updatedChunks, resultChangedHashes } = hashesResult;
+    let manifData: metaDataForManifest = {
+      fileId: data.fileId,
+      fileName: data.fileName,
+      mimeType: data.mimeType,
+      size: data.size,
+      ownerId: data.ownerId,
+      parts: data.parts,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      chunkSize: data.chunkSize,
+      chunks: [],
+    };
+    try {
+      console.log("getting Url for updated hashes!");
+      const { Urls } = await getUploadUrl(
+        resultChangedHashes,
+        data.fileName,
+        data.fileId,
+        resultChangedHashes.length,
+      );
+
+      if (!Urls) {
+        console.error("No incoming urls for the new hashes");
+        return;
+      }
+      console.log(typeof Urls);
+    } catch (e) {
+      console.error(`error in syncing block on change ${e}`);
+    }
   }
 });
 

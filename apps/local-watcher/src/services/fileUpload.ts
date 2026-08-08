@@ -19,6 +19,7 @@ export async function getUploadUrl(
   };
   try {
     const response = await axios.post("http://localhost:3000/file", sendData);
+
     return response.data;
   } catch {
     throw Error(

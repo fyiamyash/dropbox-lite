@@ -1,5 +1,9 @@
 import fs from "node:fs";
-import type { metaDataForManifest, preSignedUrlType } from "@repo/fileTypes";
+import type {
+  chunks,
+  metaDataForManifest,
+  preSignedUrlType,
+} from "@repo/fileTypes";
 import axios from "axios";
 import pLimit from "p-limit";
 
@@ -8,7 +12,7 @@ export async function uploadChunks(
   chunkSize: number,
   fileSize: number,
   urls: preSignedUrlType[],
-  manifData: metaDataForManifest,
+  incomingChunksToUpload: chunks[],
 ) {
   let completedChunks = 0;
   const fileDescriptor = fs.openSync(filePath, "r");
@@ -21,7 +25,7 @@ export async function uploadChunks(
 
     return limit(() => {
       return axios.put(element.url, allocateBuffer).then(() => {
-        const currentChunk = manifData.chunks.find(
+        const currentChunk = incomingChunksToUpload.find(
           (c) => c.chunkId === element.partno,
         );
         if (!currentChunk) {
@@ -43,5 +47,5 @@ export async function uploadChunks(
   fs.closeSync(fileDescriptor);
 
   await Promise.all(returnedUploadPromises);
-  return manifData;
+  return incomingChunksToUpload;
 }

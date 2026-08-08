@@ -12,11 +12,14 @@ export async function compareHash(
   }
   let oldCopy: hashesType[] = localCopy[fileName].chunks;
   let updatedChunks: hashesType[] = [];
-  let changedHashes: hashesType[] = [];
-  for (let i = 1; i <= changedHases.length; i++) {
+  let resultChangedHashes: hashesType[] = [];
+
+  for (let i = 0; i < changedHases.length; i++) {
+    console.log("herere", changedHases[i]);
+
     if (i > oldCopy.length) {
       updatedChunks.push({
-        chunkId: i,
+        chunkId: i + 1,
         hashId: changedHases[i]!.hashId,
       });
     } else if (
@@ -24,20 +27,20 @@ export async function compareHash(
       changedHases[i]!.hashId !== oldCopy[i]!.hashId
     ) {
       updatedChunks.push({
-        chunkId: i,
+        chunkId: i + 1,
         hashId: changedHases[i]!.hashId,
       });
-      changedHashes.push({
-        chunkId: i,
+      resultChangedHashes.push({
+        chunkId: i + 1,
         hashId: changedHases[i]!.hashId,
       });
     } else {
       updatedChunks.push({
-        chunkId: i,
+        chunkId: i + 1,
         hashId: oldCopy[i]!.hashId,
       });
     }
   }
 
-  return { updatedChunks, changedHashes };
+  return { updatedChunks, resultChangedHashes };
 }

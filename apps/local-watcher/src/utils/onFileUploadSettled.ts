@@ -10,7 +10,6 @@ export async function onFileSettled(arr: any[]) {
 }
 
 export async function updateFileStatus(fileData: metaDataForManifest) {
-  console.log("from updateFileStatus section", fileData);
   try {
     await axios.post("http://localhost:3000/fileStatus", fileData);
   } catch (e) {
