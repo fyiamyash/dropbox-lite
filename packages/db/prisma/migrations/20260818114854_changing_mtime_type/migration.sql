@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "MetaData" ALTER COLUMN "mtime" SET DATA TYPE TEXT;

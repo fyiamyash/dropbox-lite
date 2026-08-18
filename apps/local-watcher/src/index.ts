@@ -89,7 +89,10 @@ watcher.on("add", async (value, stats) => {
 });
 
 watcher.on("change", async (value, stats) => {
-  console.log(`file: ${value} changed at: ${stats?.mtime} `);
+  console.log(
+    `file: ${value} size is : ${stats?.size}changed at: ${stats?.mtime} `,
+  );
+
   if (checkFileSize(value, stats!.size)) {
     // creating the new manifData file just to calcualte hashing and then compare it with the exiting one!
     const data: fileMetaData = createMetaData(value, stats!);
@@ -109,7 +112,7 @@ watcher.on("change", async (value, stats) => {
       console.error("Hashes result is undefined/not returned!");
       return;
     }
-    const { updatedChunks, resultChangedHashes } = hashesResult;
+    const { resultChangedHashes } = hashesResult;
 
     try {
       console.log("getting Url for updated hashes!");
@@ -179,7 +182,11 @@ watcher.on("change", async (value, stats) => {
       manifData.chunkSize = data.chunkSize;
       manifData.parts = data.parts;
       manifData.size = data.size;
-      updateManifest(manifData, value);
+      manifData.mtime = data.mtime;
+      onFileSettled([
+        updateManifest(manifData, value),
+        updateFileStatus(manifData),
+      ]);
       console.log("updated manifest file", manifData);
     } catch (e) {
       console.error(`error in syncing block on change ${e}`);

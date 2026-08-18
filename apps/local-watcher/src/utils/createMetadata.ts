@@ -41,6 +41,7 @@ export function createMetaData(value: string, stats: Stats) {
     createdAt: stats.birthtime,
     updatedAt: stats.mtime,
     chunkSize: calcValue.partSize,
+    mtime: stats.mtime.getTime(),
   };
   return data;
 }

@@ -45,6 +45,6 @@ userIdforOwner            User            @relation("metaData",references: [user
 parts                     Int
 createdAt                 DateTime
 UpdatedAt                 DateTime
-mtime                     Int
+mtime                     String
 chunks                   Chunks[]       @relation("chunksRelation")
 }

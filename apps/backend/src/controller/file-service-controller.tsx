@@ -25,6 +25,7 @@ export async function backendFileUploadController(req: Request, res: Response) {
 
 export async function fileStatusHandler(req: Request, res: Response) {
   const fileStatusData = req.body;
+  console.log("recieved this file", fileStatusData);
   fileStatusJob.add("addToDb", fileStatusData, {
     removeOnComplete: true,
     removeOnFail: false,

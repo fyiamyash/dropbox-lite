@@ -11,8 +11,9 @@ export const fileStatusJob = new Queue("status", {
 export const dbWorker = new Worker(
   "status",
   async (job) => {
-    console.log("i am here");
+    // console.log("i am here");
     const upload: metaDataForManifest = job.data;
+    console.log("uploading this file", upload);
     const addedMetaData = await prisma.metaData.upsert({
       where: {
         fileId: upload.fileId,
@@ -21,6 +22,11 @@ export const dbWorker = new Worker(
       update: {
         size: upload.size,
         UpdatedAt: upload.updatedAt,
+        parts: upload.parts,
+        mtime: upload.mtime?.toString(),
+        chunks: {
+          create: upload.chunks,
+        },
       },
       create: {
         fileId: upload.fileId,
@@ -31,7 +37,7 @@ export const dbWorker = new Worker(
         parts: upload.parts!,
         createdAt: upload.createdAt!,
         UpdatedAt: upload.updatedAt!,
-        mtime: upload.mtime ? upload.mtime : 0,
+        mtime: upload.mtime?.toString() ?? "0",
         chunks: {
           create: upload.chunks,
         },
