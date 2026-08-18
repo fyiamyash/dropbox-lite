@@ -15,8 +15,6 @@ export async function compareHash(
   let resultChangedHashes: hashesType[] = [];
 
   for (let i = 0; i < changedHases.length; i++) {
-    console.log("herere", changedHases[i]);
-
     if (i > oldCopy.length) {
       updatedChunks.push({
         chunkId: i + 1,
