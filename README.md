@@ -1,159 +1,110 @@
-# Turborepo starter
+# Dropbox-Lite: File Upload & Sync Service
 
-This Turborepo starter is maintained by the Turborepo core team.
+A large-file upload and local file synchronization system built around
+direct S3-compatible object storage uploads, chunked uploads, presigned
+URLs, local filesystem watching, and asynchronous processing.
 
-## Using this example
+The system is designed to keep the backend lightweight while allowing
+clients to upload large files directly to object storage.
 
-Run the following command:
+# Architecture
 
-```sh
-npx create-turbo@latest
-```
+# How It Works
 
-## What's inside?
+## 1. Local file watching
 
-This Turborepo includes the following packages/apps:
+The client-side/local watcher monitors a local storage directory using
+Chokidar.
 
-### Apps and Packages
+This allows the system to react to:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+New files
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+File changes
 
-### Utilities
+File deletions
 
-This Turborepo has some additional tools already setup for you:
+Other filesystem events supported by the watcher
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+For macOS and Windows, filesystem polling can be used when necessary.
 
-### Build
+The watcher is particularly useful for detecting changes to large files
+without requiring the user to manually trigger an upload.
 
-To build all apps and packages, run the following command:
+## 2. Upload request
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+When a file needs to be uploaded, the client communicates with the
+backend.
 
-```sh
-cd my-turborepo
-turbo build
-```
+The backend is responsible for:
 
-Without global `turbo`, use your package manager:
+Authentication
 
-```sh
-cd my-turborepo
-npx turbo build
-bun dlx turbo build
-bun exec turbo build
-```
+Rate limiting
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+SSL/TLS termination
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Coordinating the upload workflow
 
-```sh
-turbo build --filter=docs
-```
+Communicating with the upload/download service
 
-Without global `turbo`:
+The actual file data does not need to pass through the backend.
 
-```sh
-npx turbo build --filter=docs
-bun exec turbo build --filter=docs
-bun exec turbo build --filter=docs
-```
+## 3. Chunked upload
 
-### Develop
+Large files are split into chunks.
 
-To develop all apps and packages, run the following command:
+The upload service generates presigned URLs for the chunks and returns
+them to the client.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+The client can then upload each chunk directly to S3-compatible storage.
 
-```sh
-cd my-turborepo
-turbo dev
-```
+This avoids making the backend a bottleneck for large file transfers.
 
-Without global `turbo`, use your package manager:
+## 4. Sync service
 
-```sh
-cd my-turborepo
-npx turbo dev
-bun exec turbo dev
-bun exec turbo dev
-```
+The sync service receives the file ID and can request the associated
+metadata and object-storage URL.
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+It is responsible for helping synchronize the local filesystem with the
+remotely stored file state.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+A simplified flow is:
 
-```sh
-turbo dev --filter=web
-```
+Local filesystem
+│
+▼
+Chokidar
+│
+▼
+Backend
+│
+▼
+Sync Service
+│
+├────► PostgreSQL
+│
+└────► S3-compatible storage
 
-Without global `turbo`:
+## Technology Stack
 
-```sh
-npx turbo dev --filter=web
-bun exec turbo dev --filter=web
-bun exec turbo dev --filter=web
-```
+TypeScript : Application development and type safety
 
-### Remote Caching
+Bun : JavaScript/TypeScript runtime and tooling
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+Express : HTTP backend/API
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Chokidar : Local filesystem watching
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+BullMQ : Background job and queue processing
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+PostgreSQL : File and upload metadata storage
 
-```sh
-cd my-turborepo
-turbo login
-```
+S3 SDK : S3-compatible object storage
+operations
 
-Without global `turbo`, use your package manager:
+MinIO : S3-compatible object storage for
+local/development environments
 
-```sh
-cd my-turborepo
-npx turbo login
-bun exec turbo login
-bun exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-bun exec turbo link
-bun exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Axios : HTTP requests, including presigned
+URL uploads
