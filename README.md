@@ -9,6 +9,8 @@ clients to upload large files directly to object storage.
 
 # Architecture
 
+<img width="1683" height="807" alt="Screenshot 2026-08-18 at 5 40 52 PM" src="https://github.com/user-attachments/assets/0861017a-9cea-4ab0-ac9d-2ad486a3bfb8" />
+
 # How It Works
 
 ## 1. Local file watching
